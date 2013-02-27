@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Turtlebot Panorama</string>
+    <string name="stop_app">Kill</string>
+    <string name="default_robot">turtlebot</string>
+	<string name="default_app">turtlebot_core_apps/panorama</string>
 </resources>

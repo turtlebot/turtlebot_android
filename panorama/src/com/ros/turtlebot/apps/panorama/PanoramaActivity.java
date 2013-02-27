@@ -1,33 +1,48 @@
 package com.ros.turtlebot.apps.panorama;
 
 import org.ros.address.InetAddressFactory;
-import org.ros.android.*;
-import org.ros.exception.*;
+import org.ros.android.BitmapFromCompressedImage;
+import org.ros.android.MessageCallable;
+import org.ros.android.robotapp.RosAppActivity;
 import org.ros.exception.RemoteException;
+import org.ros.exception.ServiceNotFoundException;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
-import org.ros.node.*;
-import org.ros.node.service.*;
+import org.ros.namespace.NameResolver;
+import org.ros.node.ConnectedNode;
+import org.ros.node.Node;
+import org.ros.node.NodeConfiguration;
+import org.ros.node.NodeMain;
+import org.ros.node.NodeMainExecutor;
+import org.ros.node.service.ServiceClient;
+import org.ros.node.service.ServiceResponseListener;
 import org.ros.node.topic.Subscriber;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.*;
+import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Toast;
 
 
-public class PanoramaActivity extends RosActivity implements NodeMain
+public class PanoramaActivity extends RosAppActivity implements NodeMain
 {
   private ImageView imgView;
   private Toast   lastToast;
   private ConnectedNode node;
-  private final MessageCallable<Bitmap, sensor_msgs.CompressedImage> callable = new BitmapFromCompressedImage();
+  private final MessageCallable<Bitmap, sensor_msgs.CompressedImage> callable =
+      new BitmapFromCompressedImage();
 
 
   public PanoramaActivity()
@@ -42,10 +57,14 @@ public class PanoramaActivity extends RosActivity implements NodeMain
 
   /** Called when the activity is first created. */
   @Override
-  protected void onCreate(Bundle savedInstanceState)
+  public void onCreate(Bundle savedInstanceState)
   {
-    super.onCreate(savedInstanceState);
+    setDefaultRobotName(getString(R.string.default_robot));
+    setDefaultAppName(getString(R.string.default_app));
+    setDashboardResource(R.id.top_bar);
+    setMainWindowResource(R.layout.main);
 
+    super.onCreate(savedInstanceState);
     buildView(false);
 
     // TODO Tricky solution to the StrictMode; the recommended way is by using AsyncTask
@@ -80,7 +99,10 @@ public class PanoramaActivity extends RosActivity implements NodeMain
   }
 
   @Override
-  public void onConfigurationChanged(Configuration newConfig) {
+  public void onConfigurationChanged(Configuration newConfig)
+  {
+    // TODO this is not called now, so we cannot flip the screen
+    Log.e("XXXXXXX", "onConfigurationChanged");
     super.onConfigurationChanged(newConfig);
 
     buildView(true);
@@ -105,9 +127,10 @@ public class PanoramaActivity extends RosActivity implements NodeMain
       prevDrawable  = imgView.getDrawable();
     }
 
-    setContentView(R.layout.main);
-
     // Register input controls callbacks
+    Button backButton = (Button) findViewById(R.id.back_button);
+    backButton.setOnClickListener(backButtonListener);
+
     Button startButton = (Button)findViewById(R.id.button_start);
     startButton.setOnClickListener(startButtonListener);
 
@@ -140,6 +163,20 @@ public class PanoramaActivity extends RosActivity implements NodeMain
       imgView.setImageDrawable(prevDrawable);
   }
 
+  /**
+   * Call Toast on UI thread.
+   * @param message Message to show on toast.
+   */
+  public void showToast(final String message)
+  {
+    runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run() {
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+      }
+    });
+  }
 
   /************************************************************
     ROS code:
@@ -149,6 +186,8 @@ public class PanoramaActivity extends RosActivity implements NodeMain
   @Override
   protected void init(NodeMainExecutor nodeMainExecutor)
   {
+    super.init(nodeMainExecutor);
+
     NodeConfiguration nodeConfiguration =
       NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress(), getMasterUri());
 
@@ -194,42 +233,32 @@ public class PanoramaActivity extends RosActivity implements NodeMain
       public void onSuccess(panorama.TakePanoResponse response) {
         Log.i("PanoramaActivity", "Service result: success (status " + response.getStatus() + ")");
         node.getLog().info(String.format("Service result %d",  response.getStatus()));
+        if (request.getMode() == panorama.TakePanoRequest.STOP)
+          showToast("Take panorama stoped");
+        else
+          showToast("Take panorama started");
       }
 
       @Override
       public void onFailure(RemoteException e) {
-        Log.i("PanoramaActivity", "Service result: failure (" + e.getMessage() + ")");
-        Toast.makeText(getBaseContext(), "Panorama service call failed", Toast.LENGTH_LONG).show();
+        Log.e("PanoramaActivity", "Service result: failure (" + e.getMessage() + ")");
+        node.getLog().info(String.format("Service result: failure (%s)", e.getMessage()));
+        showToast("Take panorama failed");
       }
     });
   }
 
   @Override
-  public void onError(Node arg0, Throwable arg1)
-  {
-    Log.i("PanoramaActivity", "onError");
-  }
-
-  @Override
-  public void onShutdown(Node arg0)
-  {
-    Log.i("PanoramaActivity", "onShutdown");
-  }
-
-  @Override
-  public void onShutdownComplete(Node arg0)
-  {
-    Log.i("PanoramaActivity", "onShutdownComplete");
-  }
-
-  @Override
   public void onStart(ConnectedNode connectedNode)
   {
-    Log.i("PanoramaActivity", "onStart");
+    Log.d("PanoramaActivity", connectedNode.getName() + " node started");
     node = connectedNode;
 
+    NameResolver appNameSpace = getAppNameSpace();
+    String panoImgTopic = appNameSpace.resolve("/turtlebot_panorama/panorama/compressed").toString();
+
     Subscriber<sensor_msgs.CompressedImage> subscriber =
-        connectedNode.newSubscriber("/turtlebot_panorama/panorama/compressed", sensor_msgs.CompressedImage._TYPE);
+        connectedNode.newSubscriber(panoImgTopic, sensor_msgs.CompressedImage._TYPE);
     subscriber.addMessageListener(new MessageListener<sensor_msgs.CompressedImage>() {
       @Override
       public void onNewMessage(final sensor_msgs.CompressedImage message) {
@@ -242,7 +271,24 @@ public class PanoramaActivity extends RosActivity implements NodeMain
         imgView.postInvalidate();
       }
     });
+  }
 
+  @Override
+  public void onError(Node n, Throwable e)
+  {
+    Log.e("PanoramaActivity", n.getName() + " node error: " + e.getMessage());
+  }
+
+  @Override
+  public void onShutdown(Node n)
+  {
+    Log.d("PanoramaActivity", n.getName() + " node shuting down...");
+  }
+
+  @Override
+  public void onShutdownComplete(Node n)
+  {
+    Log.d("PanoramaActivity", n.getName() + " node shutdown completed");
   }
 
   @Override
@@ -255,6 +301,15 @@ public class PanoramaActivity extends RosActivity implements NodeMain
      Android code:
      Anonymous implementation for input controls callbacks
    ************************************************************/
+
+  private final OnClickListener backButtonListener = new OnClickListener()
+  {
+    @Override
+    public void onClick(View v)
+    {
+      onBackPressed();
+    }
+  };
 
   private final OnClickListener startButtonListener = new OnClickListener()
   {
