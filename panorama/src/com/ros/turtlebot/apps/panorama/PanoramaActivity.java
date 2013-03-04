@@ -1,7 +1,6 @@
 package com.ros.turtlebot.apps.panorama;
 
 import org.ros.address.InetAddressFactory;
-import org.ros.android.BitmapFromCompressedImage;
 import org.ros.android.MessageCallable;
 import org.ros.android.robotapp.RosAppActivity;
 import org.ros.exception.RemoteException;
@@ -42,7 +41,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
   private Toast   lastToast;
   private ConnectedNode node;
   private final MessageCallable<Bitmap, sensor_msgs.CompressedImage> callable =
-      new BitmapFromCompressedImage();
+      new ScaledBitmapFromCompressedImage(2);
 
 
   public PanoramaActivity()
