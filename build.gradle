@@ -3,7 +3,7 @@ task wrapper(type: Wrapper) {
 }
 
 allprojects {
-  group 'com.mydomain'
+  group 'ros.turtlebot_android'
   version = '0.0.0-SNAPSHOT'
 }
 

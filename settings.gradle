@@ -1,2 +1,2 @@
-include 'panorama'
+include 'panorama', 'turtlebot_core_components'
 
