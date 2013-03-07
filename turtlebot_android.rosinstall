@@ -12,11 +12,11 @@
 
 - git:
     local-name: rosjava_core
-    uri: git://github.com/rosjava/rosjava_core.git
+    uri: git://github.com/KazutoMurase/rosjava_core.git
     version: groovy-devel
 - git:
     local-name: android_core
-    uri: git://github.com/rosjava/android_core.git
+    uri: git://github.com/KazutoMurase/android_core.git
     version: groovy-devel
 - hg:
     local-name: osrf_rosandroid
@@ -37,4 +37,11 @@
 - git:
     local-name: turtlebot_apps
     uri: https://github.com/turtlebot/turtlebot_apps.git
-    version: groovy
+    version: master
+
+# turtlebot create is required because it contains messages needed by turtlebot dashboard
+
+- git:
+    local-name: turtlebot_create
+    uri: https://github.com/turtlebot/turtlebot_create.git
+    version: master
