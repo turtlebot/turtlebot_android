@@ -1,0 +1,9 @@
+<package>
+  <description brief="turtlebot_android_follower">
+      This package contains the Android client for TurtleBot Follower application.
+  </description>
+  <author>Jorge Santos</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes="" />
+  <url>http://ros.org/wiki/turtlebot_android/turtlebot_android_follower</url>
+</package>
