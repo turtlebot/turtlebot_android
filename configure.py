@@ -6,7 +6,7 @@ import sys
 import subprocess
 
 android_version = 'android-17'
-other_libs = ['android_gingerbread_mr1']
+other_libs = ['android_gingerbread_mr1', 'turtlebot_android_core_components']
 # rollback if we need virtual joystick  other_libs = ['android_gingerbread_mr1', 'android_honeycomb_mr2']
 properties_fname = 'project.properties'
 
