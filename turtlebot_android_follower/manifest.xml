@@ -6,4 +6,6 @@
   <license>BSD</license>
   <review status="unreviewed" notes="" />
   <url>http://ros.org/wiki/turtlebot_android/turtlebot_android_follower</url>
+  <depend package="android_gingerbread_mr1"/>
+  <depend package="turtlebot_android_core_components"/>
 </package>

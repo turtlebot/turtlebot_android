@@ -4,3 +4,15 @@
 *.jar
 *.war
 *.ear
+
+build
+
+local.properties
+build.xml
+proguard-project.txt
+.gradle
+
+# This is not usual - android typically requires this pushed to the repo
+# however we need to configure these to use the relative paths which
+# may vary depending on your ros workspace, so don't save them!
+project.properties

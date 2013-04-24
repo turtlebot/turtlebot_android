@@ -4,47 +4,52 @@ from __future__ import print_function
 import os
 import sys
 import subprocess
+import rospkg
+import argparse
+from argparse import RawTextHelpFormatter
+import copy
 
-android_version = 'android-17'
-other_libs = ['android_gingerbread_mr1', 'turtlebot_android_core_components']
-# rollback if we need virtual joystick  other_libs = ['android_gingerbread_mr1', 'android_honeycomb_mr2']
-properties_fname = 'project.properties'
+def parse_arguments():
+    overview = 'Auto-generates project.properties for each android project under this directory.'
+    parser = argparse.ArgumentParser(description=overview, formatter_class=RawTextHelpFormatter)
+    parser.add_argument('package', nargs='?', default=None, help='name of the package in which to find the test configuration')
+    parser.add_argument('-t', '--target', action='store_true', default='android-17', help='android target version to pass to android update [android-17]')
+    args = parser.parse_args()
+    return args
 
-cwd = os.getcwd()
-# we use the sym link  
-android_core_path = subprocess.check_output(['rosstack', 'find', 'android_core']).strip()
-android_core_path = '.'
-# ant/Android requires the path to be relative for some reason
-android_core_relpath = os.path.relpath(android_core_path, cwd)
-
-USAGE = 'configure.py [<proj_dir>]'
-
-def parse_args(argv):
-    dirs = []
-    if len(argv) > 1:
-        dirs = argv[1:]
-    else:
-        # Find directories that appear to be Android projects
-        for f in os.listdir('.'):
-            if os.path.isdir(f) and os.path.exists(os.path.join(f, 'AndroidManifest.xml')):
-                dirs.append(f)
-    return dirs
-
-def go(argv):
-    dirs = parse_args(argv)
-    for p in dirs:
-        if p in other_libs:
-            print('Skipping %s'%(p))
-            continue
-        print('Operating on: %s'%(p))
-        p_path = os.path.join(cwd, p)
-        prop_path = os.path.join(p_path, properties_fname)
-        if os.path.exists(prop_path):
-            os.unlink(prop_path)
-        for l in other_libs:
-            l_path = os.path.join('..', android_core_relpath, l)
-            cmd = ['android', 'update', 'project', '--path', p_path, '--target', android_version, '--library', l_path]
-            subprocess.check_call(cmd)
+def is_library(package):
+    is_library_flag = rospack.get_manifest(package).get_export('android', 'library')
+    return True if is_library_flag else False
 
 if __name__ == '__main__':
-    go(sys.argv)
+    args = parse_arguments()
+    cwd = os.getcwd()
+    android_version = args.target
+    properties_filename = 'project.properties'
+    # Assumption is that each package is a an android project
+    package_names = rospkg.list_by_path('manifest.xml', cwd, None)
+    rospack = rospkg.RosPack()
+
+    for package in package_names:
+        print("  Package: %s" % package)
+        package_relpath = os.path.relpath(rospack.get_path(package), cwd)
+        package_depends = rospack.get_depends(package)
+        print("    Path: %s" % package_relpath)
+        # Remove project.properties and start fresh since we need relative 
+        # pathnames to all the library dependencies.
+        try:
+            os.remove(os.path.join(package_relpath, properties_filename))
+        except OSError:
+            pass  # ignore missing file
+        cmd = ['android', 'update', 'project', '--path', package_relpath, '--target', android_version ]
+        print("    Command: %s" %cmd)
+        subprocess.check_call(cmd)
+        for library in package_depends:
+            library_relpath = os.path.relpath(rospack.get_path(library), package_relpath)
+            library_cmd = copy.deepcopy(cmd)
+            library_cmd.extend(['--library', library_relpath])
+            print("    Library Command: %s" % ' '.join(library_cmd))
+            subprocess.check_call(library_cmd)
+        if is_library(package):
+            with open(os.path.join(package_relpath, properties_filename), "a") as f:
+                f.write('android.library=true')
