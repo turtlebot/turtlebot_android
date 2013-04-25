@@ -1,6 +1,7 @@
 [
 {'git': {'local-name': 'rosjava_core', 'version': 'hydro-devel', 'uri':'https://github.com/stonier/rosjava_core.git'}},
 {'git': {'local-name': 'android_gingerbread', 'version': 'hydro-devel', 'uri':'https://github.com/stonier/android_gingerbread.git'}},
+{'git': {'local-name': 'android_honeycomb', 'version': 'hydro-devel', 'uri':'https://github.com/stonier/android_honeycomb.git'}},
 ]
 #{'git': {'local-name': 'turtlebot_android', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/turtlebot_android.git'}},
 #{'git': {'local-name': 'rocon_msgs', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/rocon_msgs.git'}},
