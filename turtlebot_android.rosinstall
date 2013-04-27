@@ -4,7 +4,7 @@
 {'git': {'local-name': 'android_gingerbread', 'version': 'hydro-devel', 'uri':'https://github.com/ros-java/android_gingerbread.git'}},
 {'git': {'local-name': 'android_honeycomb', 'version': 'hydro-devel', 'uri':'https://github.com/ros-java/android_honeycomb.git'}},
 {'git': {'local-name': 'android_apps', 'version': 'hydro-devel', 'uri':'https://github.com/ros-java/android_apps.git'}},
+{'git': {'local-name': 'turtlebot_android', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/turtlebot_android.git'}},
+{'git': {'local-name': 'rocon_msgs', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/rocon_msgs.git'}},
+{'git': {'local-name': 'rocon_android', 'version': 'hydro-devel', 'uri':'https://github.com/robotics-in-concert/rocon_android.git'}},
 ]
-#{'git': {'local-name': 'turtlebot_android', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/turtlebot_android.git'}},
-#{'git': {'local-name': 'rocon_msgs', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/rocon_msgs.git'}},
-#{'git': {'local-name': 'rocon_android', 'version': 'hydro-devel', 'uri':'https://github.com/turtlebot/rocon_android.git'}},
