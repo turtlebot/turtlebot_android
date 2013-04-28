@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>turtlebot_android</name>
+  <version>0.1.0</version>
+  <description>
+    Android projects for turtlebot.
+  </description>
+  <maintainer email="d.stonier@gmail.com">Daniel Stonier</maintainer>
+  <license>Apache 2.0</license>
+  <url type="website">http://www.ros.org/wiki/turtlebot_android</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot_android</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot_android/issues</url>
+  <author email="d.stonier@gmail.com">Daniel Stonier</author>
+  <author email="jorge@yujinrobot.com">Jorge Santos</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>turtlebot_android_core_components</run_depend>
+  <run_depend>turtlebot_android_follower</run_depend>
+  <run_depend>turtlebot_android_panorama</run_depend>
+  <export>
+    <metapackage/>
+  </export>
+</package>
+

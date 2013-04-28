@@ -1,0 +1,21 @@
+<package>
+  <name>turtlebot_android_follower</name>
+  <version>0.1.0</version>
+  <description>
+    This package contains the Android client for turtleBot follower application.
+  </description>
+  <maintainer email="d.stonier@gmail.com">Daniel Stonier</maintainer>
+  <license>Apache 2.0</license>
+  <url type="website">http://ros.org/wiki/turtlebot_android_follower</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot_android</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot_android/issues</url>
+  <author email="d.stonier@gmail.com">Daniel Stonier</author>
+  <author email="jorge@yujinrobot.com">Jorge Santos</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rosjava_tools</build_depend>
+  <build_depend>android_apps_core_components</build_depend>
+  <export>
+    <android type="project"/>
+  </export>
+</package>

@@ -2,7 +2,7 @@ package com.ros.turtlebot.apps.follower;
 
 import org.ros.address.InetAddressFactory;
 import org.ros.android.BitmapFromCompressedImage;
-import org.ros.android.robotapp.RosAppActivity;
+import org.ros.android.apps.core_components.RosAppActivity;
 import org.ros.android.view.RosImageView;
 import org.ros.exception.RemoteException;
 import org.ros.exception.ServiceNotFoundException;
