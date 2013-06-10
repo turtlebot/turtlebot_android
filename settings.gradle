@@ -1,4 +1,4 @@
 include 'panorama'
 include 'follower'
-include 'core_components'
+include 'turtlebot_core'
 

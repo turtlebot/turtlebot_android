@@ -32,7 +32,7 @@
  */
 
 
-package com.github.turtlebot.turtlebot_android.core_components;
+package com.github.turtlebot.turtlebot_android.turtlebot_core;
 
 import java.util.HashMap;
 import java.util.List;
