@@ -1,8 +1,8 @@
-package com.ros.turtlebot.apps.panorama;
+package com.github.turtlebot.turtlebot_android.panorama;
 
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MessageCallable;
-import org.ros.android.robotapp.RosAppActivity;
+import com.github.ros_java.android_apps.core_components.RosAppActivity;
 import org.ros.exception.RemoteException;
 import org.ros.exception.ServiceNotFoundException;
 import org.ros.message.MessageListener;
@@ -101,7 +101,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
   public void onConfigurationChanged(Configuration newConfig)
   {
     // TODO this is not called now, so we cannot flip the screen
-    Log.e("XXXXXXX", "onConfigurationChanged");
+    Log.e("PanoramaActivity", "onConfigurationChanged");
     super.onConfigurationChanged(newConfig);
 
     buildView(true);

@@ -1,4 +1,4 @@
-package com.ros.turtlebot.apps.panorama;
+package com.github.turtlebot.turtlebot_android.panorama;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.ros.android.BitmapFromCompressedImage;

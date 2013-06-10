@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.ros.turtlebot.apps.panorama"
+      package="com.github.turtlebot.turtlebot_android.panorama"
       android:versionCode="102"
       android:versionName="1.0.2">
-    <uses-sdk android:minSdkVersion="10"
+    <uses-sdk android:minSdkVersion="17"
               android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,13 +20,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.ros.turtlebot.apps.panorama.PanoramaActivity" />
+                <action android:name="com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity android:name="org.ros.android.MasterChooser" />
 
-        <service android:name="org.ros.android.NodeMainExecutorService" />
+        <service android:name="org.ros.android.NodeMainExecutorService">
+            <intent-filter>
+                <action android:name="org.ros.android.NodeMainExecutorService" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
