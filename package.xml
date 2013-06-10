@@ -14,4 +14,6 @@
   <build_depend>android_core</build_depend>
   <build_depend>android_apps</build_depend>
   <build_depend>rosjava_core</build_depend>
+  <build_depend>create_node</build_depend>
+  <build_depend>diagnostic_msgs</build_depend>
 </package>
