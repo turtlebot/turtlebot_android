@@ -1,18 +1,18 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-build
-
-local.properties
+bin
+gen
+libs
 build.xml
+local.properties
 proguard-project.txt
 .gradle
+build
+.project
+.classpath
 
-# This is not usual - android typically requires this pushed to the repo
-# however we need to configure these to use the relative paths which
-# may vary depending on your ros workspace, so don't save them!
-project.properties
+# These are Android Studio files, might be worth including these later.
+.idea
+*.iml
+build.log
+build-log.xml
+docs.iml
+

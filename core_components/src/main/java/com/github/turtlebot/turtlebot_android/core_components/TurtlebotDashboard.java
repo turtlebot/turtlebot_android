@@ -32,13 +32,13 @@
  */
 
 
-package com.ros.turtlebot.apps.core_components;
+package com.github.turtlebot.turtlebot_android.core_components;
 
 import java.util.HashMap;
 import java.util.List;
 
-import org.ros.android.robotapp.Dashboard.DashboardInterface;
-import org.ros.android.view.BatteryLevelView;
+import com.github.ros_java.android_apps.core_components.Dashboard.DashboardInterface;
+import com.github.ros_java.android_extras.gingerbread.view.BatteryLevelView;
 import org.ros.exception.RemoteException;
 import org.ros.exception.RosException;
 import org.ros.message.MessageListener;
@@ -70,6 +70,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 
 public class TurtlebotDashboard extends LinearLayout implements DashboardInterface {
     private ImageButton modeButton;
