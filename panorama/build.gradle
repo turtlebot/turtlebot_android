@@ -23,7 +23,7 @@ dependencies {
 apply plugin: 'android'
   
 android {
-    compileSdkVersion 17
+    compileSdkVersion 15
     buildToolsVersion androidBuildToolsVersion
 }
 
