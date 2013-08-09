@@ -7,6 +7,7 @@ import org.ros.android.view.RosImageView;
 import org.ros.exception.RemoteException;
 import org.ros.exception.ServiceNotFoundException;
 import org.ros.namespace.GraphName;
+import org.ros.namespace.NameResolver;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.NodeConfiguration;
@@ -130,7 +131,9 @@ public class FollowerActivity extends RosAppActivity
     ServiceClient<turtlebot_follower.ChangeStateRequest, turtlebot_follower.ChangeStateResponse> serviceClient;
     try
     {
-      serviceClient = node.newServiceClient("/turtlebot_follower/change_state", turtlebot_follower.ChangeState._TYPE);
+        NameResolver appNameSpace = getAppNameSpace();
+        String srvTopic = appNameSpace.resolve("turtlebot_follower/change_state").toString();
+      serviceClient = node.newServiceClient(srvTopic, turtlebot_follower.ChangeState._TYPE);
     }
     catch (ServiceNotFoundException e)
     {

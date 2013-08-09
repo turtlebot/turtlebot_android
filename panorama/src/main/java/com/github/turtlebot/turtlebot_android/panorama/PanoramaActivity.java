@@ -204,7 +204,9 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     ServiceClient<turtlebot_panorama.TakePanoRequest, turtlebot_panorama.TakePanoResponse> serviceClient;
     try
     {
-      serviceClient = node.newServiceClient("/turtlebot_panorama/take_pano", turtlebot_panorama.TakePano._TYPE);
+      NameResolver appNameSpace = getAppNameSpace();
+      String srvTopic = appNameSpace.resolve("turtlebot_panorama/take_pano").toString();
+      serviceClient = node.newServiceClient(srvTopic, turtlebot_panorama.TakePano._TYPE);
     }
     catch (ServiceNotFoundException e)
     {
@@ -233,9 +235,9 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
         Log.i("PanoramaActivity", "Service result: success (status " + response.getStatus() + ")");
         node.getLog().info(String.format("Service result %d",  response.getStatus()));
         if (request.getMode() == turtlebot_panorama.TakePanoRequest.STOP)
-          showToast("Take panorama stoped");
+          showToast("Take panorama stopped.");
         else
-          showToast("Take panorama started");
+          showToast("Take panorama started.");
       }
 
       @Override
@@ -254,7 +256,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     node = connectedNode;
 
     NameResolver appNameSpace = getAppNameSpace();
-    String panoImgTopic = appNameSpace.resolve("/turtlebot_panorama/panorama/compressed").toString();
+    String panoImgTopic = appNameSpace.resolve("turtlebot_panorama/panorama/compressed").toString();
 
     Subscriber<sensor_msgs.CompressedImage> subscriber =
         connectedNode.newSubscriber(panoImgTopic, sensor_msgs.CompressedImage._TYPE);
