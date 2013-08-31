@@ -17,4 +17,6 @@
   <build_depend>rosjava_core</build_depend>
   <build_depend>create_node</build_depend>
   <build_depend>diagnostic_msgs</build_depend>
+  <build_depend>turtlebot_follower</build_depend>
+  <build_depend>turtlebot_panorama</build_depend>
 </package>
