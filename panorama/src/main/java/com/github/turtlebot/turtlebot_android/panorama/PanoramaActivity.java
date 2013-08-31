@@ -2,7 +2,7 @@ package com.github.turtlebot.turtlebot_android.panorama;
 
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MessageCallable;
-import com.github.ros_java.android_apps.application_management.RosAppActivity;
+import com.github.rosjava.android_apps.application_management.RosAppActivity;
 import org.ros.exception.RemoteException;
 import org.ros.exception.ServiceNotFoundException;
 import org.ros.message.MessageListener;
