@@ -37,8 +37,8 @@ package com.github.turtlebot.turtlebot_android.turtlebot_core;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.ros_java.android_apps.application_management.Dashboard.DashboardInterface;
-import com.github.ros_java.android_extras.gingerbread.view.BatteryLevelView;
+import com.github.rosjava.android_apps.application_management.Dashboard.DashboardInterface;
+import com.github.rosjava.android_extras.gingerbread.view.BatteryLevelView;
 import org.ros.exception.RemoteException;
 import org.ros.exception.RosException;
 import org.ros.message.MessageListener;
