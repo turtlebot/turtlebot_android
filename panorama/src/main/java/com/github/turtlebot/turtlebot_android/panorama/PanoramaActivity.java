@@ -201,12 +201,12 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
       return;
     }
 
-    ServiceClient<turtlebot_panorama.TakePanoRequest, turtlebot_panorama.TakePanoResponse> serviceClient;
+    ServiceClient<turtlebot_msgs.TakePanoramaRequest, turtlebot_msgs.TakePanoramaResponse> serviceClient;
     try
     {
       NameResolver appNameSpace = getAppNameSpace();
       String srvTopic = appNameSpace.resolve("turtlebot_panorama/take_pano").toString();
-      serviceClient = node.newServiceClient(srvTopic, turtlebot_panorama.TakePano._TYPE);
+      serviceClient = node.newServiceClient(srvTopic, turtlebot_msgs.TakePanorama._TYPE);
     }
     catch (ServiceNotFoundException e)
     {
@@ -214,7 +214,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
       Toast.makeText(getBaseContext(), "Panorama service not found", Toast.LENGTH_LONG).show();
       return;
     }
-    final turtlebot_panorama.TakePanoRequest request = serviceClient.newMessage();
+    final turtlebot_msgs.TakePanoramaRequest request = serviceClient.newMessage();
 
     SeekBar ang_speed   = (SeekBar)findViewById(R.id.seekBar_speed);
     SeekBar pano_angle  = (SeekBar)findViewById(R.id.seekBar_angle);
@@ -229,12 +229,12 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     request.setPanoAngle(pano_angle.getProgress());
     request.setMode(mode);
 
-    serviceClient.call(request, new ServiceResponseListener<turtlebot_panorama.TakePanoResponse>() {
+    serviceClient.call(request, new ServiceResponseListener<turtlebot_msgs.TakePanoramaResponse>() {
       @Override
-      public void onSuccess(turtlebot_panorama.TakePanoResponse response) {
+      public void onSuccess(turtlebot_msgs.TakePanoramaResponse response) {
         Log.i("PanoramaActivity", "Service result: success (status " + response.getStatus() + ")");
         node.getLog().info(String.format("Service result %d",  response.getStatus()));
-        if (request.getMode() == turtlebot_panorama.TakePanoRequest.STOP)
+        if (request.getMode() == turtlebot_msgs.TakePanoramaRequest.STOP)
           showToast("Take panorama stopped.");
         else
           showToast("Take panorama started.");
@@ -320,9 +320,9 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
       CheckBox continuous = (CheckBox)findViewById(R.id.checkBox_continuous);
 
       if (continuous.isChecked() == true)
-        callService(turtlebot_panorama.TakePanoRequest.CONTINUOUS);
+        callService(turtlebot_msgs.TakePanoramaRequest.CONTINUOUS);
       else
-        callService(turtlebot_panorama.TakePanoRequest.SNAPANDROTATE);
+        callService(turtlebot_msgs.TakePanoramaRequest.SNAPANDROTATE);
     }
   };
 
@@ -331,7 +331,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     @Override
     public void onClick(View v)
     {
-      callService(turtlebot_panorama.TakePanoRequest.STOP);
+      callService(turtlebot_msgs.TakePanoramaRequest.STOP);
     }
   };
 

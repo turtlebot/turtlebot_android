@@ -128,12 +128,12 @@ public class FollowerActivity extends RosAppActivity
       return;
     }
 
-    ServiceClient<turtlebot_follower.ChangeStateRequest, turtlebot_follower.ChangeStateResponse> serviceClient;
+    ServiceClient<turtlebot_msgs.SetFollowStateRequest, turtlebot_msgs.SetFollowStateResponse> serviceClient;
     try
     {
         NameResolver appNameSpace = getAppNameSpace();
         String srvTopic = appNameSpace.resolve("turtlebot_follower/change_state").toString();
-      serviceClient = node.newServiceClient(srvTopic, turtlebot_follower.ChangeState._TYPE);
+      serviceClient = node.newServiceClient(srvTopic, turtlebot_msgs.SetFollowState._TYPE);
     }
     catch (ServiceNotFoundException e)
     {
@@ -141,14 +141,14 @@ public class FollowerActivity extends RosAppActivity
       Toast.makeText(getBaseContext(), "Change follower state service not found", Toast.LENGTH_LONG).show();
       return;
     }
-    final turtlebot_follower.ChangeStateRequest request = serviceClient.newMessage();
+    final turtlebot_msgs.SetFollowStateRequest request = serviceClient.newMessage();
     request.setState(newState);
 
-    serviceClient.call(request, new ServiceResponseListener<turtlebot_follower.ChangeStateResponse>() {
+    serviceClient.call(request, new ServiceResponseListener<turtlebot_msgs.SetFollowStateResponse>() {
       @Override
-      public void onSuccess(turtlebot_follower.ChangeStateResponse response) {
+      public void onSuccess(turtlebot_msgs.SetFollowStateResponse response) {
         Log.i("FollowerActivity", "Service result " + response.getResult());
-        if (request.getState() == turtlebot_follower.ChangeStateRequest.STOPPED)
+        if (request.getState() == turtlebot_msgs.SetFollowStateRequest.STOPPED)
           showToast("Follower stopped");
         else
           showToast("Follower started");
@@ -195,7 +195,7 @@ public class FollowerActivity extends RosAppActivity
     @Override
     public void onClick(View v)
     {
-      callService(turtlebot_follower.ChangeStateRequest.FOLLOW);
+      callService(turtlebot_msgs.SetFollowStateRequest.FOLLOW);
     }
   };
 
@@ -204,7 +204,7 @@ public class FollowerActivity extends RosAppActivity
     @Override
     public void onClick(View v)
     {
-      callService(turtlebot_follower.ChangeStateRequest.STOPPED);
+      callService(turtlebot_msgs.SetFollowStateRequest.STOPPED);
     }
   };
 }

@@ -15,15 +15,15 @@
  */
 
 dependencies {
-  compile 'ros.android_core:android_gingerbread_mr1:0.0.0-SNAPSHOT'
-  compile 'com.github.rosjava.android_apps:application_management:0.1.0'
-  compile 'ros.rosjava_core:rosjava:0.0.0-SNAPSHOT'
+  compile 'com.github.rosjava.android_apps:application_management:0.1.+'
+  compile 'org.ros.android_core:android_gingerbread_mr1:0.1.+'
+  compile 'org.ros.rosjava_core:rosjava:0.1.+'
+  compile 'org.ros.rosjava_messages:turtlebot_msgs:2.2.+'
 }
 
 apply plugin: 'android'
   
 android {
     compileSdkVersion 15
-    buildToolsVersion androidBuildToolsVersion
 }
 

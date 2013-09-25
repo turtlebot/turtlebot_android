@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Yujin Robot
+ * Copyright (C) 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,53 +13,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 task wrapper(type: Wrapper) {
-  gradleVersion = '1.6'
+    gradleVersion = '1.7'
 }
 
-allprojects {
-  group 'com.github.turtlebot.turtlebot_android'
-  version = '0.1.0'
-}
-
-ext.androidBuildToolsVersion = "17"
-
-subprojects {
-    buildscript {
-        repositories {
-            mavenCentral()
-        }
-        dependencies {
-            classpath 'com.android.tools.build:gradle:0.5.0'
-        }
-    }
-    apply plugin: 'maven'
+buildscript {
+    def rosMavenPath = "$System.env.ROS_MAVEN_PATH".split(':').collect { 'file://' + it }
     repositories {
-        mavenLocal()
-        maven {
-            url 'http://robotbrains.hideho.org/nexus/content/groups/ros-public'
-        }
-    }
-    configurations.add('compile') {
-        exclude group: 'junit'
-        exclude group: 'xml-apis'
-    }
-
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+        rosMavenPath.each { p ->
+            maven {
+                url p
             }
         }
-    }
-    task publishToMavenLocal() << {
-        description = 'installs .aar files to the local maven repository.'
-    }
-    afterEvaluate { Project project ->
-        if (plugins.findPlugin('android-library')) {
-            publishToMavenLocal.dependsOn('uploadArchives')
+        mavenLocal()
+        maven {
+            url 'https://github.com/rosjava/rosjava_mvn_repo/raw/master'
         }
+    }
+    dependencies {
+        classpath group: 'org.ros.rosjava_bootstrap', name: 'gradle_plugins', version: '0.1.+'
     }
 }
 
+apply plugin: 'catkin'
+
+allprojects {
+    group 'com.github.rosjava.android_apps'
+    version = project.catkin.pkg.version
+}
+
+subprojects {
+    apply plugin: 'ros-android'
+}
