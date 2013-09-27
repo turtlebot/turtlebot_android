@@ -1,0 +1,12 @@
+##############################################################################
+#
+# Source installation instructions at:
+#
+# http://www.ros.org/wiki/turtlebot_android/Tutorials/hydro/Installation
+#
+##############################################################################
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_android.git
+    local-name: turtlebot_android
+    version: hydro-devel
