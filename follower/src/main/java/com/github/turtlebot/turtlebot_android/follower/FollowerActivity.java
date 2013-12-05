@@ -43,7 +43,7 @@ public class FollowerActivity extends RosAppActivity
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
-    setDefaultRobotName(getString(R.string.default_robot));
+    setDefaultMasterName(getString(R.string.default_robot));
     setDefaultAppName(getString(R.string.default_app));
     setDashboardResource(R.id.top_bar);
     setMainWindowResource(R.layout.main);
@@ -81,7 +81,7 @@ public class FollowerActivity extends RosAppActivity
       NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress(), getMasterUri());
 
     // Execute camera view node
-    cameraView.setTopicName(getAppNameSpace().resolve(cameraTopic).toString());
+    cameraView.setTopicName(getMasterNameSpace().resolve(cameraTopic).toString());
     nodeMainExecutor.execute(cameraView, nodeConfiguration.setNodeName("android/camera_view"));
 
     // Execute another node just to allow calling services; I suppose there will be a shortcut for this in the future
@@ -131,7 +131,7 @@ public class FollowerActivity extends RosAppActivity
     ServiceClient<turtlebot_msgs.SetFollowStateRequest, turtlebot_msgs.SetFollowStateResponse> serviceClient;
     try
     {
-        NameResolver appNameSpace = getAppNameSpace();
+        NameResolver appNameSpace = getMasterNameSpace();
         String srvTopic = appNameSpace.resolve("turtlebot_follower/change_state").toString();
       serviceClient = node.newServiceClient(srvTopic, turtlebot_msgs.SetFollowState._TYPE);
     }

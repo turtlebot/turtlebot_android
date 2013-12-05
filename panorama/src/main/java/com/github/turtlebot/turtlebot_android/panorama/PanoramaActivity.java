@@ -58,7 +58,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
-    setDefaultRobotName(getString(R.string.default_robot));
+    setDefaultMasterName(getString(R.string.default_robot));
     setDefaultAppName(getString(R.string.default_app));
     setDashboardResource(R.id.top_bar);
     setMainWindowResource(R.layout.main);
@@ -204,7 +204,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     ServiceClient<turtlebot_msgs.TakePanoramaRequest, turtlebot_msgs.TakePanoramaResponse> serviceClient;
     try
     {
-      NameResolver appNameSpace = getAppNameSpace();
+      NameResolver appNameSpace = getMasterNameSpace();
       String srvTopic = appNameSpace.resolve("turtlebot_panorama/take_pano").toString();
       serviceClient = node.newServiceClient(srvTopic, turtlebot_msgs.TakePanorama._TYPE);
     }
@@ -255,7 +255,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
     Log.d("PanoramaActivity", connectedNode.getName() + " node started");
     node = connectedNode;
 
-    NameResolver appNameSpace = getAppNameSpace();
+    NameResolver appNameSpace = getMasterNameSpace();
     String panoImgTopic = appNameSpace.resolve("turtlebot_panorama/panorama/compressed").toString();
 
     Subscriber<sensor_msgs.CompressedImage> subscriber =
