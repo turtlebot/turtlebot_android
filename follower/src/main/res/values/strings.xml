@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Turtlebot Follower</string>
     <string name="stop_app">Kill</string>
-    <string name="default_robot">turtlebot</string>
+    <string name="default_robot"></string>
 	<string name="default_app">turtlebot_core_apps/follower</string>
 </resources>

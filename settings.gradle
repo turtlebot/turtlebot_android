@@ -1,2 +1,7 @@
-include 'panorama'
-include 'follower'
+/*
+ *include 'panorama'
+ *include 'follower'
+ */
+
+ include 'panorama'
+ include 'follower'
