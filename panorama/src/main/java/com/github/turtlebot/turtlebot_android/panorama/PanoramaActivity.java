@@ -252,7 +252,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
   @Override
   public void onStart(ConnectedNode connectedNode)
   {
-    Log.d("PanoramaActivity", connectedNode.getName() + " node started");
+    Log.e("PanoramaActivity", connectedNode.getName() + " node started");
     node = connectedNode;
 
     NameResolver appNameSpace = getMasterNameSpace();
@@ -277,7 +277,7 @@ public class PanoramaActivity extends RosAppActivity implements NodeMain
   @Override
   public void onError(Node n, Throwable e)
   {
-    Log.e("PanoramaActivity", n.getName() + " node error: " + e.getMessage());
+    Log.d("PanoramaActivity", n.getName() + " node error: " + e.getMessage());
   }
 
   @Override

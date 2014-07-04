@@ -15,6 +15,7 @@ import org.ros.node.NodeMainExecutor;
 import org.ros.node.service.ServiceClient;
 import org.ros.node.service.ServiceResponseListener;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -50,19 +51,7 @@ public class FollowerActivity extends RosAppActivity
 
     super.onCreate(savedInstanceState);
 
-    cameraView = (RosImageView<sensor_msgs.CompressedImage>)findViewById(R.id.image);
-    cameraView.setMessageType(sensor_msgs.CompressedImage._TYPE);
-    cameraView.setMessageToBitmapCallable(new BitmapFromCompressedImage());
-
-    // Register input controls callbacks
-    Button backButton = (Button) findViewById(R.id.back_button);
-    backButton.setOnClickListener(backButtonListener);
-
-    ImageButton startButton = (ImageButton)findViewById(R.id.button_start);
-    startButton.setOnClickListener(startButtonListener);
-
-    ImageButton stopButton = (ImageButton)findViewById(R.id.button_stop);
-    stopButton.setOnClickListener(stopButtonListener);
+    buildView();
 
     // TODO Tricky solution to the StrictMode; the recommended way is by using AsyncTask
     if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -71,6 +60,32 @@ public class FollowerActivity extends RosAppActivity
     }
   }
 
+  @Override
+  public void onConfigurationChanged(Configuration newConfig)
+  {
+      // TODO this is not called now, so we cannot flip the screen
+      Log.e("FollowerActivity", "onConfigurationChanged");
+      super.onConfigurationChanged(newConfig);
+
+      buildView();
+    }
+
+  private void buildView()
+  {
+      cameraView = (RosImageView<sensor_msgs.CompressedImage>)findViewById(R.id.image);
+      cameraView.setMessageType(sensor_msgs.CompressedImage._TYPE);
+      cameraView.setMessageToBitmapCallable(new BitmapFromCompressedImage());
+
+      // Register input control callbacks
+      Button backButton = (Button) findViewById(R.id.back_button);
+      backButton.setOnClickListener(backButtonListener);
+
+      ImageButton startButton = (ImageButton)findViewById(R.id.button_start);
+      startButton.setOnClickListener(startButtonListener);
+
+      ImageButton stopButton = (ImageButton)findViewById(R.id.button_stop);
+      stopButton.setOnClickListener(stopButtonListener);
+  }
 
   @Override
   protected void init(NodeMainExecutor nodeMainExecutor)
