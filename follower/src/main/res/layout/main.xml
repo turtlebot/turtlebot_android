@@ -66,6 +66,11 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/follow" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></LinearLayout>
+
             <ImageButton
                 android:id="@+id/button_stop"
                 android:layout_width="wrap_content"

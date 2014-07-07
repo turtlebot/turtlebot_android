@@ -50,8 +50,11 @@ public class FollowerActivity extends RosAppActivity
     setMainWindowResource(R.layout.main);
 
     super.onCreate(savedInstanceState);
+    cameraView = (RosImageView<sensor_msgs.CompressedImage>)findViewById(R.id.image);
+    cameraView.setMessageType(sensor_msgs.CompressedImage._TYPE);
+    cameraView.setMessageToBitmapCallable(new BitmapFromCompressedImage());
 
-    buildView();
+    buildView(cameraView, false);
 
     // TODO Tricky solution to the StrictMode; the recommended way is by using AsyncTask
     if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -66,25 +69,38 @@ public class FollowerActivity extends RosAppActivity
       // TODO this is not called now, so we cannot flip the screen
       Log.e("FollowerActivity", "onConfigurationChanged");
       super.onConfigurationChanged(newConfig);
+      setContentView(R.layout.main);
 
-      buildView();
+      buildView(cameraView, true);
     }
 
-  private void buildView()
+  private void buildView(RosImageView<sensor_msgs.CompressedImage> prevCamImage, boolean rebuild)
   {
-      cameraView = (RosImageView<sensor_msgs.CompressedImage>)findViewById(R.id.image);
-      cameraView.setMessageType(sensor_msgs.CompressedImage._TYPE);
-      cameraView.setMessageToBitmapCallable(new BitmapFromCompressedImage());
+      if(rebuild == true)
+      {
+          cameraView = prevCamImage;
+          // Register input control callbacks
+          Button backButton = (Button) findViewById(R.id.back_button);
+          backButton.setOnClickListener(backButtonListener);
 
-      // Register input control callbacks
-      Button backButton = (Button) findViewById(R.id.back_button);
-      backButton.setOnClickListener(backButtonListener);
+          ImageButton startButton = (ImageButton)findViewById(R.id.button_start);
+          startButton.setOnClickListener(startButtonListener);
 
-      ImageButton startButton = (ImageButton)findViewById(R.id.button_start);
-      startButton.setOnClickListener(startButtonListener);
+          ImageButton stopButton = (ImageButton)findViewById(R.id.button_stop);
+          stopButton.setOnClickListener(stopButtonListener);
+      }
+      else
+      {
+          // Register input control callbacks
+          Button backButton = (Button) findViewById(R.id.back_button);
+          backButton.setOnClickListener(backButtonListener);
 
-      ImageButton stopButton = (ImageButton)findViewById(R.id.button_stop);
-      stopButton.setOnClickListener(stopButtonListener);
+          ImageButton startButton = (ImageButton)findViewById(R.id.button_start);
+          startButton.setOnClickListener(startButtonListener);
+
+          ImageButton stopButton = (ImageButton)findViewById(R.id.button_stop);
+          stopButton.setOnClickListener(stopButtonListener);
+      }
   }
 
   @Override
