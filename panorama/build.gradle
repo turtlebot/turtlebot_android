@@ -32,4 +32,9 @@ android {
     versionCode 1
     versionName "1.1.0"
   }
+  productFlavors {
+    indigo {
+      applicationId "com.github.turtlebot.turtlebot_android.panorama.indigo"
+    }
+  }
 }
