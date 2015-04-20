@@ -3,5 +3,5 @@
  *include 'follower'
  */
 
- include 'panorama'
+include 'panorama'
 include 'follower'

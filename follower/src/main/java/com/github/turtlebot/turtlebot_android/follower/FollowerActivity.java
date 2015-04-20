@@ -32,7 +32,8 @@ public class FollowerActivity extends RosAppActivity
   private Toast    lastToast;
   private ConnectedNode node;
   private RosImageView<sensor_msgs.CompressedImage> cameraView;
-  private static final String cameraTopic = "camera/rgb/image_color/compressed_throttle";
+  private static final String cameraTopic = "camera/rgb/image_rect_color/compressed";
+
 
 
   public FollowerActivity()

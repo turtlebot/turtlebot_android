@@ -15,19 +15,26 @@
  */
 
 dependencies {
-  compile 'com.github.rosjava.android_remocons:common_tools:[0.1,0.2)'
-  compile 'org.ros.android_core:android_gingerbread_mr1:0.1.+'
+  compile 'com.github.rosjava.android_remocons:common_tools:[0.2,0.3)'
+  compile 'org.ros.android_core:android_10:[0.2,0.3)]'
   compile 'org.ros.rosjava_core:rosjava:0.1.+'
   compile 'org.ros.rosjava_messages:turtlebot_msgs:2.2.+'
 }
 
-apply plugin: 'android'
-  
-android {
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-    }
-    compileSdkVersion 13
-}
+apply plugin: 'com.android.application'
 
+android {
+    compileSdkVersion 15
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 15
+    versionCode 1
+    versionName "1.1.1"
+  }
+  productFlavors {
+    indigo {
+      applicationId "com.github.turtlebot.turtlebot_android.follower.indigo"
+    }
+  }
+}

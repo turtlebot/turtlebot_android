@@ -39,19 +39,21 @@
             android:id="@+id/image"
             android:layout_width="277dp"
             android:layout_height="fill_parent"
-            android:src="@drawable/icon" />
+            android:src="@drawable/icon"
+            android:layout_weight="0.57" />
 
         <ImageButton
             android:id="@+id/button_start"
             android:layout_width="119dp"
-            android:layout_height="187dp"
+            android:layout_height="184dp"
             android:adjustViewBounds="false"
             android:baselineAlignBottom="false"
             android:cropToPadding="false"
             android:scaleType="fitXY"
             android:src="@drawable/follow"
             android:layout_marginTop="10dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_weight="0.2" />
 
         <ImageButton
             android:id="@+id/button_stop"
@@ -63,7 +65,7 @@
             android:cropToPadding="false"
             android:scaleType="fitXY"
             android:src="@drawable/stop"
-            android:layout_weight="0.27"
+            android:layout_weight="0.2"
             android:layout_gravity="center" />
 
     </LinearLayout>
